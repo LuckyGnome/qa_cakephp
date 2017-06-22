@@ -58,10 +58,19 @@
                 $this->Session->setFlash('Student Updated');
                 }
                 else{
-                    $this->Session->setFlast('Cannot Save Student');
+                    $this->Session->setFlash('Cannot Save Student');
                 }
         }
 
+        public function delete_student(){
+        
+            if ($this->Student->delete(4)){
+                $this->Session->setFlash('Student Deleted');
+                }
+                else{
+                    $this->Session->setFlash('No record found');
+                }
+        }
 
         public function Display(){
 
