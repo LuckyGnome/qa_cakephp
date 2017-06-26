@@ -91,5 +91,22 @@
             $this->layout = "custom_layout";
 
         }
+        public function view($id = null) {
+            $this->loadModel('Student');
+
+
+            if (!$id) {
+
+            throw new NotFoundException(__('Invalid user'));
+
+            }
+
+            $students_record = $this->student->findById($id);
+            
+            if(!$students_record){
+                throw new NotFoundException(__('Invalid user'));
+            }
+            $this->set('student', $students_record);
+        }
     }
 ?>
