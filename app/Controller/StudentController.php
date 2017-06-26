@@ -1,6 +1,8 @@
 <?php 
     class StudentController extends AppController{
+        public $helpers = array('Html', 'Form', 'Session');
 
+        public $components = array('Session');
         var $uses = array('Student');
 
         public function index(){
@@ -34,32 +36,60 @@
             $students_record=$this->Student->find('list',array('limit'=>5));
             print_r($students_record);
         }
-        public function add_students(){
-            $student_record = array(
-                                'Student' => array (
-                                'name' => 'new student',
-                                'email' => 'ns@gmail.com',
-                                'contactno' => '938393839'
-                                )
-                            );  
-            
-            if($this->Student->save($student_record)){
-                $new_id = $this->Student->id;
-                $this->Session->setFlash('Student Saved - New student ID is ' . $new_id);
-            }else{
-                $this->Session->setFlash('Cannot save new student');
+        public function add() {
+
+
+            if($this->request->is('post')){
+
+            $this->Student->create();
+
+                if ($this->Student->save($this->request->data)) {
+
+                    $this->Session->setFlash(__('Student has been saved.'));
+
+                    $this->redirect(array('action' => 'index'));
+                
+                } else {
+                    $this->Session->setFlash(__('Unable to add Student.'));
+                }
             }
         }
-        public function update_students(){
-    
-        $student_record = array('roll_no'=>'1','name'=>'R. Johnson');
+        public function edit($roll_no = null) {
 
-            if ($this->Student->save($student_record)){
-                $this->Session->setFlash('Student Updated');
+            if(!$roll_no){
+
+                throw new NotFoundException(__('Invalid Student'));
+
+            }
+
+            $student = $this->Student->findById($roll_no);
+
+            if(!$student){
+             
+                throw new NotFoundException(__('Invalid Student'));
+            
+            }
+
+            if ($this->request->is('post') || $this->request->is('put')) {
+                
+                $this->Student->roll_no = $roll_no;
+
+                if ($this->Student->save($this->request->data)) {
+             
+                    $this->Session->setFlash(__('User has been updated.'));
+                    $this->redirect(array('action' => 'index'));
+             
+                } else {
+             
+                    $this->Session->setFlash(__('Unable to update User.'));
+             
                 }
-                else{
-                    $this->Session->setFlash('Cannot Save Student');
-                }
+            }
+            if(!$this->request->data){
+
+            $this->request->data = $user;
+            
+            }
         }
 
         public function delete_student(){
@@ -91,22 +121,33 @@
             $this->layout = "custom_layout";
 
         }
-        public function view($id = null) {
+        public function view($roll_no = null) {
             $this->loadModel('Student');
 
 
-            if (!$id) {
+            if (!$roll_no) {
 
             throw new NotFoundException(__('Invalid user'));
 
             }
 
-            $students_record = $this->student->findById($id);
+            $students_record = $this->Student->findByroll_no($roll_no);
             
             if(!$students_record){
                 throw new NotFoundException(__('Invalid user'));
             }
             $this->set('student', $students_record);
+        }
+        public function delete($roll_no) {
+
+            if ($this->request->is('get')) {
+                throw new MethodNotAllowedException();
+            }
+
+            if ($this->User->delete($roll_no)) {
+                $this->Session->setFlash(__('The user having roll number: %s has been deleted.', $roll_no));
+                $this->redirect(array('action' => 'index'));
+            }
         }
     }
 ?>
