@@ -1,17 +1,19 @@
 <?php 
     class StudentController extends AppController{
+        //Atribute
         public $helpers = array('Html', 'Form', 'Session');
 
         public $components = array('Session');
         var $uses = array('Student');
-
+        
+        //functions
         public function index(){
 
             $students_record = $this->Student->find('all');
             // Make data available for view
-            $this->set('students_record', $this->Student->find('all'));
+            $this->set('students_record', $students_record);
         }
-        public function show(){
+       /* public function show(){
 
             echo '<pre>';
             $conditions = array('roll_no >'=>'1');
@@ -35,13 +37,12 @@
             echo '<br>Limit 5 records :</br>';
             $students_record=$this->Student->find('list',array('limit'=>5));
             print_r($students_record);
-        }
+        }*/
         public function add() {
-
-
+            
             if($this->request->is('post')){
 
-            $this->Student->create();
+                $this->Student->create();
 
                 if ($this->Student->save($this->request->data)) {
 
@@ -62,7 +63,7 @@
 
             }
 
-            $student = $this->Student->findById($roll_no);
+            $student = $this->Student->findByroll_no($roll_no);
 
             if(!$student){
              
@@ -70,38 +71,40 @@
             
             }
 
-            if ($this->request->is('post') || $this->request->is('put')) {
+            if($this->request->is('post') || $this->request->is('put')){
                 
                 $this->Student->roll_no = $roll_no;
 
-                if ($this->Student->save($this->request->data)) {
+                if($this->Student->save($this->request->data)){
              
-                    $this->Session->setFlash(__('User has been updated.'));
+                    $this->Session->setFlash(__('Student has been updated.'));
                     $this->redirect(array('action' => 'index'));
              
-                } else {
+                }else{
              
-                    $this->Session->setFlash(__('Unable to update User.'));
+                    $this->Session->setFlash(__('Unable to update Student.'));
              
                 }
             }
             if(!$this->request->data){
 
-            $this->request->data = $user;
+            $this->request->data = $student;
             
             }
         }
 
-        public function delete_student(){
+        /*   public function delete_student(){
         
-            if ($this->Student->delete(4)){
+            if($this->Student->delete(4)){
+
                 $this->Session->setFlash('Student Deleted');
-                }
-                else{
+
+                } else {
+
                     $this->Session->setFlash('No record found');
                 }
         }
-
+    
         public function Display(){
 
             $var1 = '';
@@ -120,31 +123,36 @@
             $this->set('student_contact',$var3);
             $this->layout = "custom_layout";
 
-        }
+        } */
         public function view($roll_no = null) {
             $this->loadModel('Student');
 
 
-            if (!$roll_no) {
+            if(!$roll_no){
 
-            throw new NotFoundException(__('Invalid user'));
+            throw new NotFoundException(__('Invalid Student'));
 
             }
 
             $students_record = $this->Student->findByroll_no($roll_no);
             
             if(!$students_record){
+
                 throw new NotFoundException(__('Invalid user'));
+            
             }
+            
             $this->set('student', $students_record);
+        
         }
+
         public function delete($roll_no) {
 
             if ($this->request->is('get')) {
                 throw new MethodNotAllowedException();
             }
 
-            if ($this->User->delete($roll_no)) {
+            if ($this->Student->delete($roll_no)){
                 $this->Session->setFlash(__('The user having roll number: %s has been deleted.', $roll_no));
                 $this->redirect(array('action' => 'index'));
             }

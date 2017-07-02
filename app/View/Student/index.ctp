@@ -6,7 +6,7 @@
 
 	'Add Student',
 
-	array('controller' => 'Students', 'action' => 'add')
+	array('controller' => 'Student', 'action' => 'add')
 
 	); ?>
 
@@ -22,13 +22,12 @@
 	<tr>
 		<td><?php echo $s['Student']['roll_no']; ?></td>
 		<td><?php echo $this->Html->link($s['Student']['name'],
-		array('controller' => 'Students', 'action' => 'view', $s['Student']['roll_no'])); ?></td>
+		array('controller' => 'Student', 'action' => 'view', $s['Student']['roll_no'])); ?></td>
 		<td><?php echo $s['Student']['email']; ?></td>
 		<td><?php echo $s['Student']['contactno']; ?></td>
 		<td><?php echo $this->Html->link('View', array('action' => 'view', $s['Student']['roll_no'])); ?>
 		<?php echo $this->Html->link('Edit', array('action' => 'edit', $s['Student']['roll_no'])); ?>
-		<?php echo $this->Form->postLink('Delete',array('action' => 'delete', $s['Student']['roll_no']),array('confirm' => 'Are you sure
-		to delete?'));	?></td>
+		<?php echo $this->Form->postLink('Delete',array('action' => 'delete', $s['Student']['roll_no']),array('confirm' => 'Are you sure you want to delete '.$s['Student']['name'].'?'));	?></td>
 	</tr>
 	<?php endforeach; ?>
 	<?php unset($students_record); ?>
