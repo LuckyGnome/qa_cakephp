@@ -157,20 +157,6 @@
                 $this->redirect(array('action' => 'index'));
             }
         }
-        public function download(){
-            $this->view = 'Media';
-            $params = array(
-            'id' => 'student_app_guide.pdf',
-            'name' => 'student_app_guide',
-            'mimeType' => 'text/pdf pdf',
-            'download' => true,
-            'extension' => 'pdf',
-            'path' => APP . 'View/Student/' . DS
-            );
-            
-            $this->set($params);
-            $this->autoLayout = false;
-
-        }
+        
     }
 ?>

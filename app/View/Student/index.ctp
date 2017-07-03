@@ -25,17 +25,19 @@
 		array('controller' => 'Student', 'action' => 'view', $s['Student']['roll_no'])); ?></td>
 		<td><?php echo $s['Student']['email']; ?></td>
 		<td><?php echo $s['Student']['contactno']; ?></td>
-		<td><?php echo $this->Html->link('View', array('action' => 'view', $s['Student']['roll_no'])); ?>
-		<?php echo $this->Html->link('Edit', array('action' => 'edit', $s['Student']['roll_no'])); ?>
-		<?php echo $this->Form->postLink('Delete',array('action' => 'delete', $s['Student']['roll_no']),array('confirm' => 'Are you sure you want to delete '.$s['Student']['name'].'?'));	?></td>
+		<td><?php echo $this->Html->link('View', array('action' => 'view', $s['Student']['roll_no']), array("class" => "button")); ?>
+		<?php echo $this->Html->link('Edit', array('action' => 'edit', $s['Student']['roll_no']), array("class" => "button")); ?>
+		<?php echo $this->Form->postLink('Delete',array('action' => 'delete', $s['Student']['roll_no']), array('class' => 'button'), array('confirm' => 'Are you sure you want to delete '.$s['Student']['name'].'?'));	?></td>
 	</tr>
 	<?php endforeach; ?>
 	<?php unset($students_record); ?>
 	</table>
 	<br>
 	<br>
-	<p>Here is a link to the user guide to this website.</p>
-	<a href="/Student/student_app_guide.pdf">Student Guide</a>
-	<?php $this->Html->link('student_app_guide.pdf', '/View/Student/');	?>
+	<p>Here is a link to a user guide for this website.</p>
+	<?php
+	$file_path = 'student_app_guide.pdf';
+
+	 echo $this->Html->link('Student Guide', '/files/'.$file_path, array("target" => "blank"));	?>
  
 </div>
