@@ -32,5 +32,10 @@
 	<?php endforeach; ?>
 	<?php unset($students_record); ?>
 	</table>
-
+	<br>
+	<br>
+	<p>Here is a link to the user guide to this website.</p>
+	<a href="/Student/student_app_guide.pdf">Student Guide</a>
+	<?php $this->Html->link('student_app_guide.pdf', '/View/Student/');	?>
+ 
 </div>
